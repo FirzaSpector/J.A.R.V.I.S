@@ -1,0 +1,2 @@
+"        let clapDuration = 0;\n        let freqDataArray = null;\n\n        function monitorAudio() {\n            if (!analyser || !clapEnabled) {\n                if (analyser) requestAnimationFrame(monitorAudio);\n                return;\n            }
+<truncated 3900 bytes>

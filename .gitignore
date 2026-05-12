@@ -5,40 +5,8 @@ package-lock.json
 # Environment Variables
 .env
 
-# Skills and Large Directories
+# Large Directories
 skills/
-extracted_steps/
-node_modules/
-
-# Extraction and Research Scripts
-*.txt
-extract_*.py
-extract.py
-step_*.txt
-extracted_*.txt
-brain_*.txt
-occurrences*.txt
-untruncated_audio_code.txt
-best_found_audio_code.txt
-extracted_audio_functions.txt
-formatted_audio_code.txt
-recovered_audio_functions.txt
-full_request*.txt
-target_search.py
-search_brain*.py
-search_current_overview.py
-search_features.py
-list_*.py
-find_*.py
-inspect_args.py
-parse_*.py
-recover_*.py
-format_recovered.py
-test_*.py
-scan_all_conversations.py
-list-models.js
-test-api.js
-print_raw_step_summaries.py
 
 # Recovered HTML/Backups
 recovered_html_*.html

@@ -1,0 +1,1 @@
+"            speak(\"Siap, Boss. Semua sistem online. Apa yang Boss perlukan?\");\n"

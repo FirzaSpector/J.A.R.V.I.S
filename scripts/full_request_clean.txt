@@ -1,0 +1,22 @@
+<USER_REQUEST>
+Kamu adalah senior frontend developer. Upgrade file jarvis.html ini dengan 3 fitur berikut tanpa mengubah UI/styling yang sudah ada:
+
+---
+
+## FITUR 1: STREAMING TYPEWRITER RESPONSE
+
+Ganti fungsi `send()` yang sekarang pakai fetch biasa menjadi SSE streaming.
+
+Logika baru:
+- Kirim POST ke `serverUrl + '/api/chat/stream'` (endpoint baru)
+- Baca response sebagai stream dengan `response.body.getReader()`
+- Parse setiap chunk: format SSE `data: {"token":"..."}` 
+- Buat bubble AI kosong dulu, lalu append teks karakter per karakter dengan delay 18ms antar karakter (typewriter effect)
+- Selama streaming: status "STREAMING", logo ring spin cepat
+- Setelah streaming selesai: simpan full text ke `history[]`, lalu panggil `speak(fullText)`
+- Jika server tidak support streaming (fallback): tetap fungsi fetch lama ke `/api/chat`
+- Tambahkan tombol kecil "[STOP]" di bubble yang sedang di-stream untuk interrupt
+
+Contoh format SSE dari backend Express: data: {“token”:“Hai”}
+data: {“token”:” Boss”}
+<truncated 1454 bytes>
