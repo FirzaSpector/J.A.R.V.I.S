@@ -11,3 +11,4 @@ skills/
 # Recovered HTML/Backups
 recovered_html_*.html
 *.html_backup
+memory.db

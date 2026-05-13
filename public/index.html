@@ -8,1040 +8,56 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            --cyan: #00f5ff;
-            --blue: #0080ff;
-            --bg: #000c1a;
-            --panel: rgba(0, 30, 60, 0.7);
-            --border: rgba(0, 245, 255, 0.2);
-            --text: #c8e8ff;
-            --dim: rgba(0, 245, 255, 0.45);
-            --red: #ff3366;
-            --green: #00ff88;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Rajdhani', sans-serif;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px,
-                    rgba(0, 0, 0, 0.12) 2px, rgba(0, 0, 0, 0.12) 4px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            max-width: 860px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 0 14px;
-        }
-
-        /* HEADER */
-        header {
-            padding: 14px 0 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-ring {
-            width: 42px;
-            height: 42px;
-            border: 2px solid var(--cyan);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            animation: spin 6s linear infinite;
-        }
-
-        .logo-ring::before {
-            content: '';
-            position: absolute;
-            inset: 5px;
-            border: 1px solid rgba(0, 128, 255, 0.6);
-            border-radius: 50%;
-            animation: spin 3s linear infinite reverse;
-        }
-
-        .logo-core {
-            width: 9px;
-            height: 9px;
-            background: var(--cyan);
-            border-radius: 50%;
-            box-shadow: 0 0 14px var(--cyan), 0 0 28px var(--cyan);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(0.75);
-            }
-        }
-
-        .logo-text h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: var(--cyan);
-            letter-spacing: 4px;
-            text-shadow: 0 0 18px rgba(0, 245, 255, 0.5);
-        }
-
-        .logo-text p {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--dim);
-            letter-spacing: 2px;
-        }
-
-        .header-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.6rem;
-        }
-
-        .status-dot {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--green);
-        }
-
-        .status-dot::before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            background: var(--green);
-            border-radius: 50%;
-            box-shadow: 0 0 6px var(--green);
-            animation: blink 2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.2;
-            }
-        }
-
-        .server-url {
-            color: rgba(0, 245, 255, 0.3);
-            font-size: 0.55rem;
-        }
-
-        /* CONFIG PANEL */
-        .config-panel {
-            flex-shrink: 0;
-            margin: 8px 0;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .config-toggle {
-            width: 100%;
-            background: none;
-            border: none;
-            color: var(--dim);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            padding: 7px 14px;
-            cursor: pointer;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: color 0.2s;
-        }
-
-        .config-toggle:hover {
-            color: var(--cyan);
-        }
-
-        .arrow {
-            transition: transform 0.3s;
-            font-size: 0.55rem;
-        }
-
-        .config-toggle.open .arrow {
-            transform: rotate(90deg);
-        }
-
-        .config-body {
-            display: none;
-            padding: 10px 14px;
-            border-top: 1px solid var(--border);
-            gap: 10px;
-            flex-direction: column;
-        }
-
-        .config-body.open {
-            display: flex;
-        }
-
-        .config-row {
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-        }
-
-        .config-field {
-            flex: 1;
-        }
-
-        .config-field label {
-            display: block;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--dim);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .config-field input,
-        .config-field textarea {
-            width: 100%;
-            background: rgba(0, 10, 25, 0.85);
-            border: 1px solid var(--border);
-            color: var(--text);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.72rem;
-            padding: 7px 10px;
-            outline: none;
-            border-radius: 2px;
-            transition: border-color 0.2s;
-        }
-
-        .config-field input {
-            height: 34px;
-        }
-
-        .config-field textarea {
-            resize: vertical;
-            min-height: 70px;
-            line-height: 1.5;
-        }
-
-        .config-field input:focus,
-        .config-field textarea:focus {
-            border-color: var(--cyan);
-            box-shadow: 0 0 8px rgba(0, 245, 255, 0.08);
-        }
-
-        /* CHAT */
-        .chat-window {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border) transparent;
-        }
-
-        .chat-window::-webkit-scrollbar {
-            width: 3px;
-        }
-
-        .chat-window::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 2px;
-        }
-
-        .welcome {
-            text-align: center;
-            padding: 36px 20px;
-            animation: fadeUp 0.8s ease;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .welcome h2 {
-            font-family: 'Orbitron', monospace;
-            font-size: 1rem;
-            color: var(--cyan);
-            letter-spacing: 3px;
-            margin-bottom: 8px;
-        }
-
-        .welcome p {
-            color: var(--dim);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.78rem;
-            line-height: 1.7;
-        }
-
-        .quick-cmds {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            justify-content: center;
-            margin-top: 18px;
-        }
-
-        .qcmd {
-            background: rgba(0, 245, 255, 0.04);
-            border: 1px solid var(--border);
-            color: var(--dim);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.67rem;
-            padding: 5px 12px;
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            border-radius: 2px;
-            transition: all 0.2s;
-        }
-
-        .qcmd:hover {
-            background: rgba(0, 245, 255, 0.1);
-            border-color: var(--cyan);
-            color: var(--cyan);
-            box-shadow: 0 0 8px rgba(0, 245, 255, 0.08);
-        }
-
-        /* MESSAGES */
-        .msg {
-            display: flex;
-            gap: 9px;
-            animation: fadeUp 0.25s ease;
-            max-width: 100%;
-        }
-
-        .msg.user {
-            flex-direction: row-reverse;
-        }
-
-        .avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.5rem;
-            font-weight: 700;
-            flex-shrink: 0;
-            letter-spacing: 0.5px;
-        }
-
-        .avatar.ai {
-            background: rgba(0, 245, 255, 0.08);
-            border: 1px solid var(--cyan);
-            color: var(--cyan);
-            box-shadow: 0 0 8px rgba(0, 245, 255, 0.15);
-        }
-
-        .avatar.user {
-            background: rgba(0, 128, 255, 0.1);
-            border: 1px solid var(--blue);
-            color: var(--blue);
-        }
-
-        .bubble {
-            max-width: 80%;
-            padding: 9px 13px;
-            border-radius: 2px;
-            font-size: 0.88rem;
-            line-height: 1.65;
-            position: relative;
-        }
-
-        .msg.ai .bubble {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-left: 2px solid var(--cyan);
-        }
-
-        .msg.ai .bubble::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, var(--cyan), transparent);
-            opacity: 0.4;
-        }
-
-        .msg.user .bubble {
-            background: rgba(0, 128, 255, 0.08);
-            border: 1px solid rgba(0, 128, 255, 0.25);
-            border-right: 2px solid var(--blue);
-            text-align: right;
-        }
-
-        .bubble-label {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.55rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            opacity: 0.7;
-        }
-
-        .msg.ai .bubble-label {
-            color: var(--cyan);
-        }
-
-        .msg.user .bubble-label {
-            color: var(--blue);
-        }
-
-        .bubble-body code {
-            background: rgba(0, 245, 255, 0.07);
-            border: 1px solid var(--border);
-            padding: 1px 5px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.8em;
-            color: var(--cyan);
-            border-radius: 2px;
-        }
-
-        .bubble-body strong {
-            color: var(--cyan);
-        }
-
-        .bubble-body em {
-            color: #aad4ff;
-        }
-
-        .error-text {
-            color: var(--red);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.75rem;
-        }
-
-        /* THINKING */
-        .thinking {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-            padding: 2px 0;
-        }
-
-        .thinking span {
-            width: 5px;
-            height: 5px;
-            background: var(--cyan);
-            border-radius: 50%;
-            box-shadow: 0 0 5px var(--cyan);
-            animation: think 1.2s ease-in-out infinite;
-        }
-
-        .thinking span:nth-child(2) {
-            animation-delay: .2s;
-        }
-
-        .thinking span:nth-child(3) {
-            animation-delay: .4s;
-        }
-
-        @keyframes think {
-
-            0%,
-            80%,
-            100% {
-                transform: scale(0.5);
-                opacity: 0.3;
-            }
-
-            40% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* INPUT */
-        .input-area {
-            flex-shrink: 0;
-            padding: 10px 0 14px;
-            border-top: 1px solid var(--border);
-        }
-
-        .input-label {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.58rem;
-            color: var(--dim);
-            letter-spacing: 2px;
-            margin-bottom: 6px;
-        }
-
-        .input-label::before {
-            content: ' // ';
-            color: var(--cyan);
-        }
-
-        .input-row {
-            display: flex;
-            gap: 7px;
-            align-items: flex-end;
-        }
-
-        textarea#inp {
-            flex: 1;
-            background: rgba(0, 10, 25, 0.9);
-            border: 1px solid var(--border);
-            border-bottom: 2px solid var(--cyan);
-            color: var(--text);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.95rem;
-            padding: 9px 13px;
-            outline: none;
-            resize: none;
-            min-height: 42px;
-            max-height: 130px;
-            line-height: 1.5;
-            border-radius: 2px;
-            transition: all 0.2s;
-        }
-
-        textarea#inp::placeholder {
-            color: rgba(0, 245, 255, 0.2);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.72rem;
-        }
-
-        textarea#inp:focus {
-            border-color: var(--cyan);
-            box-shadow: 0 0 16px rgba(0, 245, 255, 0.06);
-        }
-
-        .btn-send {
-            background: rgba(0, 245, 255, 0.07);
-            border: 1px solid var(--cyan);
-            color: var(--cyan);
-            font-family: 'Orbitron', monospace;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            padding: 0 16px;
-            height: 42px;
-            cursor: pointer;
-            border-radius: 2px;
-            transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-send::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--cyan);
-            transform: translateX(-101%);
-            transition: transform 0.2s;
-        }
-
-        .btn-send:hover::before {
-            transform: translateX(0);
-        }
-
-        .btn-send:hover {
-            color: var(--bg);
-        }
-
-        .btn-send span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-send:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
-
-        .btn-send:disabled::before {
-            display: none;
-        }
-
-        .btn-clr {
-            background: transparent;
-            border: 1px solid rgba(255, 51, 102, 0.35);
-            color: rgba(255, 51, 102, 0.55);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.62rem;
-            letter-spacing: 1px;
-            padding: 0 12px;
-            height: 42px;
-            cursor: pointer;
-            border-radius: 2px;
-            transition: all 0.2s;
-        }
-
-        .btn-clr:hover {
-            border-color: var(--red);
-            color: var(--red);
-            background: rgba(255, 51, 102, 0.04);
-        }
-
-        .wake-status {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 2px;
-            margin-top: 5px;
-            transition: all 0.3s;
-        }
-
-        .wake-status.standby {
-            color: var(--dim);
-            opacity: 0.5;
-        }
-
-        .wake-status.active {
-            color: var(--cyan);
-            text-shadow: 0 0 10px var(--cyan);
-            animation: pulse 1s infinite;
-        }
-
-        .volume-meter {
-            width: 100%;
-            height: 6px;
-            background: rgba(0, 245, 255, 0.05);
-            margin-top: 6px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 245, 255, 0.1);
-        }
-
-        .volume-bar {
-            position: absolute;
-            height: 100%;
-            background: linear-gradient(90deg, var(--blue), var(--cyan));
-            width: 0%;
-            transition: width 0.05s;
-            box-shadow: 0 0 10px var(--cyan);
-        }
-
-        /* ACTIVATION OVERLAY */
-        #activationOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 10, 20, 0.95);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .init-btn {
-            background: none;
-            border: 2px solid var(--cyan);
-            color: var(--cyan);
-            padding: 20px 40px;
-            font-family: 'Orbitron', monospace;
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
-        }
-
-        .init-btn:hover {
-            background: var(--cyan);
-            color: #000;
-            box-shadow: 0 0 40px var(--cyan);
-        }
-
-        #debugInfo {
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--dim);
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        /* HUD ELEMENTS */
-
-        /* HUD ELEMENTS */
-        .hud-left,
-        .hud-right {
-            position: fixed;
-            top: 100px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        .hud-left {
-            left: 20px;
-        }
-
-        .hud-right {
-            right: 20px;
-        }
-
-        .hud-box {
-            background: rgba(0, 30, 60, 0.4);
-            border-left: 2px solid var(--cyan);
-            padding: 10px 15px;
-            min-width: 140px;
-            backdrop-filter: blur(4px);
-        }
-
-        .hud-box h3 {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--dim);
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .hud-box .value {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.1rem;
-            color: var(--cyan);
-            text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
-        }
-
-        .hud-box .sub-value {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--blue);
-            margin-top: 2px;
-        }
-
-        /* VOICE UI */
-        .mic-btn {
-            background: rgba(0, 245, 255, 0.05);
-            border: 1px solid var(--border);
-            color: var(--dim);
-            width: 42px;
-            height: 42px;
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .mic-btn.active {
-            background: rgba(0, 245, 255, 0.15);
-            border-color: var(--cyan);
-            color: var(--cyan);
-            box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
-            animation: pulse-glow 1.5s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0% {
-                box-shadow: 0 0 5px rgba(0, 245, 255, 0.2);
-            }
-
-            50% {
-                box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
-            }
-
-            100% {
-                box-shadow: 0 0 5px rgba(0, 245, 255, 0.2);
-            }
-        }
-
-        .voice-status {
-            position: fixed;
-            bottom: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--cyan);
-            letter-spacing: 2px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 10;
-            background: rgba(0, 12, 26, 0.8);
-            padding: 5px 15px;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-        }
-
-        .voice-status.show {
-            opacity: 1;
-        }
-
-        @media(max-width:1100px) {
-
-            .hud-left,
-            .hud-right {
-                display: none;
-            }
-        }
-
-        .input-footer {
-            margin-top: 6px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .hint {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.58rem;
-            color: rgba(0, 245, 255, 0.18);
-        }
-
-        @media(max-width:580px) {
-            .logo-text h1 {
-                font-size: 1rem;
-                letter-spacing: 2px;
-            }
-
-            .bubble {
-                max-width: 90%;
-                font-size: 0.83rem;
-            }
-
-            .header-right {
-                display: none;
-            }
-        }
-
-        /* VOLUME METER */
-        .volume-meter {
-            width: 120px;
-            height: 4px;
-            background: rgba(0, 245, 255, 0.05);
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-            border-radius: 2px;
-            margin: 4px 0;
-        }
-
-        .volume-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--blue), var(--cyan));
-            transition: width 0.1s, background 0.2s;
-            position: relative;
-        }
-
-        .threshold-marker {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: rgba(255, 51, 102, 0.4);
-            z-index: 2;
-            box-shadow: 0 0 5px rgba(255, 51, 102, 0.3);
-        }
-
-        /* WAKE WORD INDICATOR */
-        .wake-listening-dot {
-            width: 8px;
-            height: 8px;
-            background: #00ff00;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-            box-shadow: 0 0 8px #00ff00;
-            animation: wake-blink 1s infinite;
-        }
-
-        @keyframes wake-blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.2;
-            }
-        }
-
-        #wakeIndicator {
-            display: none;
-            align-items: center;
-            font-size: 0.6rem;
-            color: #00ff00;
-            letter-spacing: 1px;
-            font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
-        }
-
-        .wake-status {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 2px 8px;
-            border-radius: 2px;
-            transition: all 0.3s;
-        }
-
-        .wake-status.standby { color: var(--cyan); text-shadow: 0 0 5px var(--cyan); }
-        .wake-status.listening { color: var(--red); text-shadow: 0 0 10px var(--red); background: rgba(255, 51, 102, 0.1); }
-        .wake-status.processing { color: var(--green); text-shadow: 0 0 10px var(--green); }
-        .wake-status.error { color: #ff0000; text-shadow: 0 0 10px #ff0000; background: rgba(255, 0, 0, 0.2); animation: glitch-anim 0.1s infinite; }
-
-        #wakeIndicator {
-
-        /* SCANLINE & GLITCH */
-        .scanline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 245, 255, 0.03) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        .scanline.active {
-            opacity: 1;
-            animation: scanline-anim 20s linear infinite;
-        }
-
-        @keyframes scanline-anim {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
-        }
-
-        .glitch {
-            animation: glitch-anim 0.2s linear infinite;
-            filter: hue-rotate(90deg) brightness(1.5);
-        }
-
-        @keyframes glitch-anim {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 1px); }
-            40% { transform: translate(2px, -1px); }
-            60% { transform: translate(-1px, 2px); }
-            80% { transform: translate(1px, -2px); }
-            100% { transform: translate(0); }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="scanline" id="scanline"></div>
-    <!-- ACTIVATION OVERLAY -->
     <div id="activationOverlay">
         <div style="color: var(--dim); margin-bottom: 20px; font-family: 'Share Tech Mono';">SISTEM MEMERLUKAN OTORISASI
         </div>
         <button class="init-btn" onclick="startSystems()">INITIALIZE SYSTEMS</button>
     </div>
 
+    <div id="minimalView" class="minimal-view active">
+        <button class="toggle-view-btn" onclick="toggleViewMode()">TEXT MODE</button>
+
+        <div class="orb-container state-standby" id="mainOrb" onclick="toggleVoice()">
+            <div class="orb-ring outer-ring"></div>
+            <div class="orb-ring dashed-ring"></div>
+            <div class="orb-ring inner-ring"></div>
+
+            <div class="orb-core">
+                <div class="orb-text">JARVIS</div>
+            </div>
+            <canvas id="orbCanvas" width="300" height="300" class="orb-canvas"></canvas>
+        </div>
+
+        <div class="minimal-time" id="minimalTime">00:00</div>
+        <div class="minimal-date" id="minimalDate">SUNDAY 01 JAN</div>
+        <div class="minimal-status" id="minimalStatus">SYSTEM: STANDBY</div>
+    </div>
+
     <div id="debugInfo">
         <span id="debugText">MIC: OFF | VOL: 0</span>
         <button onclick="emergencyReset()"
-            style="background:none;border:1px solid var(--red);color:var(--red);font-size:0.5rem;cursor:pointer;margin-left:5px;padding:1px 3px;">EMERGENCY RESET</button>
+            style="background:none;border:1px solid var(--red);color:var(--red);font-size:0.5rem;cursor:pointer;margin-left:5px;padding:1px 3px;">EMERGENCY
+            RESET</button>
     </div>
-    <!-- HUD LEFT -->
+
     <div class="hud-left">
         <div class="hud-box">
             <h3>System Time</h3>
             <div class="value" id="hudClock">00:00:00</div>
             <div class="sub-value" id="hudDate">MAY 11 2026</div>
         </div>
-        <div class="hud-box">
+        <div class="hud-box" id="hudBoxCpu">
             <h3>Core Load</h3>
             <div class="value" id="hudCpu">12%</div>
-            <div class="sub-value">STABLE</div>
+            <div class="sub-value" id="hudCpuSub">STABLE</div>
         </div>
     </div>
 
-    <!-- HUD RIGHT -->
     <div class="hud-right">
         <div class="hud-box">
             <h3>Memory</h3>
@@ -1050,8 +66,18 @@
         </div>
         <div class="hud-box">
             <h3>Network</h3>
-            <div class="value">94 ms</div>
+            <div class="value" id="hudNet">94 ms</div>
             <div class="sub-value">ENCRYPTED</div>
+        </div>
+        <div class="hud-box" id="visionBox" style="display: none;">
+            <h3>Vision System</h3>
+            <div
+                style="position: relative; width: 100%; height: 80px; overflow: hidden; border: 1px solid var(--border); margin-top: 5px; box-shadow: inset 0 0 10px rgba(0, 245, 255, 0.2);">
+                <video id="webcamVideo" autoplay playsinline muted
+                    style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(120%) sepia(100%) hue-rotate(150deg); opacity: 0.8;"></video>
+                <canvas id="visionCanvas" style="display: none;"></canvas>
+            </div>
+            <div class="sub-value" id="visionStatus">OFFLINE</div>
         </div>
     </div>
 
@@ -1069,7 +95,10 @@
                 </div>
             </div>
             <div class="header-right">
-                <div class="status-dot">ONLINE</div>
+                <div style="display: flex; align-items: center;">
+                    <button class="btn-to-minimal" onclick="toggleViewMode()">ORB MODE</button>
+                    <div class="status-dot">ONLINE</div>
+                </div>
                 <div class="status-bar" style="display: flex; align-items: center; gap: 10px;">
                     <div id="micIndicator"
                         style="width: 8px; height: 8px; border-radius: 50%; background: var(--dim); transition: 0.2s;">
@@ -1083,7 +112,8 @@
                     </div>
                 </div>
                 <div class="volume-meter-group" style="display: flex; align-items: center; gap: 15px;">
-                    <div class="visualizer-container" style="width: 50px; height: 50px; position: relative; flex-shrink: 0;">
+                    <div class="visualizer-container"
+                        style="width: 50px; height: 50px; position: relative; flex-shrink: 0;">
                         <canvas id="hudCanvas" width="100" height="100" style="width: 100%; height: 100%;"></canvas>
                     </div>
                     <div style="flex: 1;">
@@ -1112,10 +142,35 @@
                         <input type="text" id="serverUrl" value="http://localhost:3000"
                             placeholder="http://localhost:3000">
                     </div>
+                    <div class="config-field" style="max-width:180px;">
+                        <label>API Access Key</label>
+                        <input type="password" id="apiKey" value="jarvis_secure_access_token_2026"
+                            placeholder="Token Akses Keamanan">
+                    </div>
                     <div class="config-field">
                         <label>System Prompt - Kepribadian Jarvis</label>
-                        <textarea
-                            id="systemPrompt">Kamu adalah J.A.R.V.I.S, asisten pribadi yang sangat cerdas, canggih, dan membantu seperti asisten Tony Stark. Kamu berbicara dalam Bahasa Indonesia dengan gaya profesional, sopan, namun memiliki sentuhan kepribadian yang unik. Kamu adalah pakar dalam segala bidang, mulai dari teknologi (pengembangan web, networking, AI), kesehatan, hingga nutrisi olahraga. Berikan jawaban yang sangat komprehensif, mendalam, dan sangat informatif. JANGAN memberikan jawaban yang singkat; berikan penjelasan langkah-demi-langkah, detail teknis, dan konteks tambahan jika memungkinkan. Selalu panggil pengguna dengan sebutan "Boss". Gunakan format markdown untuk penjelasan yang kompleks.</textarea>
+                        <textarea id="systemPrompt">Kamu adalah J.A.R.V.I.S — asisten AI pribadi milik Boss. 
+
+KEMAMPUAN SISTEM:
+- Kamu bisa mengontrol sistem (lock, shutdown, volume, media).
+- Kamu bisa membuka aplikasi (Chrome, Notepad, Spotify, Calculator).
+- Untuk memutar lagu di Spotify, sebutkan "putar lagu [judul]".
+
+GAYA BICARA:
+- Singkat, padat, langsung ke poin
+- Sedikit wit/sarcasm sesekali, tapi tetap profesional
+- Panggil pengguna "Boss"
+- Jangan repeat pertanyaan, jangan basa-basi pembuka
+
+PANJANG JAWABAN:
+- Default: 2-4 kalimat atau 3-5 bullet point maksimal
+- Hanya panjang jika Boss minta: "jelaskan lengkap", "step by step", "detail"
+- Kode: langsung tulis kode tanpa penjelasan panjang kecuali diminta
+
+FORMAT:
+- Gunakan markdown hanya jika membantu kejelasan
+- Untuk kode, selalu gunakan code block
+- Untuk list, maksimal 5 item kecuali diminta lebih</textarea>
                     </div>
                     <div class="config-field" style="max-width:150px;">
                         <label>System Settings</label>
@@ -1148,6 +203,9 @@
                                     oninput="updateSensitivity(this.value)"
                                     style="width: 100%; height: 2px; background: var(--border); accent-color: var(--cyan);">
                             </label>
+                            <button onclick="clearMemory()"
+                                style="margin-top: 10px; padding: 5px; background: rgba(255,0,0,0.2); border: 1px solid var(--red); color: var(--red); cursor: pointer; font-family: 'Share Tech Mono';">CLEAR
+                                MEMORY</button>
                         </div>
                     </div>
                 </div>
@@ -1169,34 +227,84 @@
                     <button class="qcmd"
                         onclick="quick('Buatkan boilerplate Next.js + Tailwind + Supabase Auth')">Next.js
                         Boilerplate</button>
-                    <button class="qcmd" onclick="quick('Apa saja yang bisa kamu bantu?')">Kaahlian J.A.R.V.I.S</button>
+                    <button class="qcmd" onclick="quick('Apa saja yang bisa kamu bantu?')">Apa yang bisa saya bantu,
+                        Boss?</button>
                 </div>
             </div>
         </div>
 
         <div class="input-area">
-            <div class="input-label">INPUT PERINTAH</div>
-            <div class="input-row">
-                <button class="mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice Command">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                        <path
-                            d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-                    </svg>
-                </button>
-                <textarea id="inp" placeholder="Ketik perintah... (Enter kirim, Shift+Enter baris baru)" rows="1"
-                    oninput="resize(this)" onkeydown="keyHandler(event)"></textarea>
-                <button class="mute-btn" id="muteBtn" onclick="toggleMute()" title="Toggle Voice Output">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path
-                            d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                    </svg>
-                </button>
-                <button class="btn-send" id="sendBtn" onclick="send()"><span>SEND</span></button>
-                <button class="btn-clr" onclick="clearChat()">CLR</button>
+            <div class="input-label">
+                <span>INPUT PERINTAH</span>
+                <span class="status-tag">SYSTEM READY</span>
             </div>
-            <div class="input-footer">
-                <span class="hint">ENTER = kirim | SHIFT+ENTER = baris baru</span>
+            <div class="input-row">
+                <div class="control-group left">
+                    <button class="control-btn" id="visionBtn" onclick="toggleVision(!isVisionActive)"
+                        title="Toggle Vision (Camera)">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path
+                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                                opacity=".3" />
+                            <path
+                                d="M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice Command">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                            <path
+                                d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                        </svg>
+                    </button>
+                </div>
+
+                <textarea id="inp" placeholder="Ketik perintah..." rows="1" oninput="resize(this)"
+                    onkeydown="keyHandler(event)"></textarea>
+
+                <div class="control-group right">
+                    <button class="control-btn" id="muteBtn" onclick="toggleMute()" title="Mute/Unmute Voice">
+                        <svg id="muteIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <!-- Volume Up Icon (Default) -->
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn history-btn" onclick="openHistoryModal()" title="History">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path
+                                d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn clear-btn" onclick="clearChat()" title="Clear Chat History">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                        </svg>
+                    </button>
+                    <button class="btn-send" id="sendBtn" onclick="processInput()" title="Send Command">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="margin-left: 2px;">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HISTORY MODAL -->
+    <div id="historyModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>RIWAYAT PERCAKAPAN</h2>
+                <button class="modal-close" onclick="closeHistoryModal()" title="Close History">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="historyModalBody">
+                <!-- Chat history will be loaded here -->
             </div>
         </div>
     </div>
@@ -1214,6 +322,60 @@
         let humNode = null;
         let humGain = null;
 
+        let visionStream = null;
+        let isVisionActive = false;
+
+        async function toggleVision(active) {
+            isVisionActive = active;
+            const video = document.getElementById('webcamVideo');
+            const visionBox = document.getElementById('visionBox');
+            const vStatus = document.getElementById('visionStatus');
+            const visionBtn = document.getElementById('visionBtn');
+
+            if (active) {
+                if (visionBox) visionBox.style.display = 'block';
+                if (visionBtn) visionBtn.classList.add('active');
+                if (vStatus) vStatus.textContent = 'CONNECTING...';
+                try {
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        throw new Error("Browser API tidak tersedia (pastikan akses via localhost/HTTPS).");
+                    }
+                    visionStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    if (video) video.srcObject = visionStream;
+                    if (vStatus) vStatus.textContent = 'ONLINE';
+                    console.log("Vision system initialized");
+                } catch (err) {
+                    console.error("Error accessing webcam:", err);
+                    alert("Gagal mengakses kamera: " + err.message + "\n\n1. Pastikan Anda mengizinkan akses kamera di browser.\n2. Akses J.A.R.V.I.S via http://localhost atau HTTPS.\n3. Pastikan tidak ada aplikasi lain (seperti Zoom/Meet) yang sedang menggunakan kamera.");
+                    if (vStatus) vStatus.textContent = 'ERROR: CAM ACCESS';
+                    isVisionActive = false;
+                    if (visionBtn) visionBtn.classList.remove('active');
+                }
+            } else {
+                if (visionStream) {
+                    visionStream.getTracks().forEach(track => track.stop());
+                    visionStream = null;
+                }
+                if (video) video.srcObject = null;
+                if (visionBox) visionBox.style.display = 'none';
+                if (vStatus) vStatus.textContent = 'OFFLINE';
+                if (visionBtn) visionBtn.classList.remove('active');
+            }
+        }
+
+        function captureFrame() {
+            if (!isVisionActive || !visionStream) return null;
+            const video = document.getElementById('webcamVideo');
+            const canvas = document.getElementById('visionCanvas');
+            if (!video || !canvas) return null;
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg', 0.6);
+        }
+
         let audioContext = null;
         let analyser = null;
         let dataArray = null;
@@ -1225,6 +387,17 @@
         const CLAP_COOLDOWN = 120;
         const CLAP_WINDOW = 800;
         let prevMax = 0; // Track previous peak for onset detection
+
+        let isMinimalView = true;
+        function toggleViewMode() {
+            isMinimalView = !isMinimalView;
+            const minimalView = document.getElementById('minimalView');
+            if (isMinimalView) {
+                minimalView.classList.add('active');
+            } else {
+                minimalView.classList.remove('active');
+            }
+        }
 
         function updateSensitivity(val) {
             CLAP_THRESHOLD = parseFloat(val);
@@ -1238,7 +411,6 @@
         }
 
         // Status Manager
-        // Status Manager
         function setStatus(state, subtext = "") {
             const statusEl = document.getElementById('wakeStatus');
             const voiceStatus = document.getElementById('voiceStatus');
@@ -1247,7 +419,6 @@
             statusEl.className = "wake-status " + state.toLowerCase();
             statusEl.textContent = "SYSTEM: " + state;
 
-            // Wake Indicator visibility
             const wakeInd = document.getElementById('wakeIndicator');
             if (wakeInd) {
                 wakeInd.style.display = (state === "STANDBY" && isWakeListening) ? 'flex' : 'none';
@@ -1267,17 +438,16 @@
                 if (headerVoiceStatus) headerVoiceStatus.style.opacity = '0';
             }
 
-            // AI Ring Pulse for Speaking/Processing
+            // --- ANIMASI HEADER LOGO RING ---
             const ring = document.querySelector('.logo-ring');
-            if (state === "STREAMING") {
+            if (state === "STREAMING" || state === "SPEAKING" || state === "PROCESSING") {
                 ring.style.animationDuration = '0.5s';
                 ring.style.borderColor = 'var(--cyan)';
-            } else if (state === "SPEAKING" || state === "PROCESSING") {
-                ring.style.animationDuration = '1s';
-                ring.style.borderColor = 'var(--cyan)';
+                ring.classList.remove('glitch');
             } else if (state === "LISTENING") {
                 ring.style.animationDuration = '0.5s';
                 ring.style.borderColor = 'var(--red)';
+                ring.classList.remove('glitch');
             } else if (state === "ERROR") {
                 ring.style.animationDuration = '0.2s';
                 ring.style.borderColor = 'var(--red)';
@@ -1286,6 +456,37 @@
                 ring.style.animationDuration = '6s';
                 ring.style.borderColor = 'var(--cyan)';
                 ring.classList.remove('glitch');
+            }
+
+            // --- ANIMASI ORB MINIMAL VIEW ---
+            const minStatus = document.getElementById('minimalStatus');
+            const mainOrb = document.getElementById('mainOrb');
+
+            if (minStatus) {
+                minStatus.textContent = subtext || ("SYSTEM: " + state);
+                minStatus.className = "minimal-status " + state.toLowerCase();
+
+                // Ubah warna teks status minimal
+                if (state === "ERROR") {
+                    minStatus.style.color = '#ff0000';
+                } else if (state === "LISTENING") {
+                    minStatus.style.color = 'var(--red)';
+                } else if (state === "STANDBY") {
+                    minStatus.style.color = 'var(--dim)';
+                } else {
+                    minStatus.style.color = 'var(--cyan)';
+                }
+            }
+
+            // Ganti class orb-container sesuai state
+            if (mainOrb) {
+                mainOrb.className = 'orb-container state-' + state.toLowerCase();
+
+                // Opsional: Merubah warna teks JARVIS menjadi merah saat listening
+                const orbText = document.querySelector('.orb-text');
+                if (orbText) {
+                    orbText.style.color = (state === "LISTENING") ? 'var(--red)' : '#ffffff';
+                }
             }
         }
 
@@ -1315,13 +516,22 @@
         function keyHandler(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                send();
+                processInput();
             }
         }
 
         function quick(text) {
             document.getElementById('inp').value = text;
-            send();
+            processInput();
+        }
+
+        function processInput() {
+            var inp = document.getElementById('inp');
+            var text = inp.value.trim();
+            if (!text) return;
+            inp.value = '';
+            inp.style.height = 'auto';
+            handleLocalCommand(text);
         }
 
         function clearChat() {
@@ -1338,6 +548,91 @@
                 + '<button class="qcmd" onclick="quick(\'Apa saja yang bisa kamu bantu?\')">Keahlian J.A.R.V.I.S</button>'
                 + '</div></div>';
         }
+
+        async function loadHistory() {
+            try {
+                const serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+                const res = await fetch(serverUrl + '/api/history');
+                if (!res.ok) throw new Error('Failed to load history');
+                const data = await res.json();
+
+                if (data.history && data.history.length > 0) {
+                    history = data.history;
+                }
+            } catch (err) {
+                console.error("Error loading history:", err);
+            }
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+
+        async function openHistoryModal() {
+            document.getElementById('historyModal').style.display = 'flex';
+            const body = document.getElementById('historyModalBody');
+            body.innerHTML = '<div style="text-align:center; color:var(--dim); padding: 40px; font-family: \'Share Tech Mono\';">MENGUNDUH DATA INGATAN...</div>';
+
+            try {
+                const serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+                const res = await fetch(serverUrl + '/api/history');
+                if (!res.ok) throw new Error('Gagal memuat riwayat percakapan. Status: ' + res.status);
+                const data = await res.json();
+
+                body.innerHTML = '';
+                if (data.history && data.history.length > 0) {
+                    data.history.forEach(msg => {
+                        const isAI = msg.role === 'assistant' || msg.role === 'ai';
+                        const d = document.createElement('div');
+                        d.className = 'msg ' + (isAI ? 'ai' : 'user');
+                        const label = isAI ? '// J.A.R.V.I.S' : '// USER';
+                        const avatarText = isAI ? 'JAR' : 'YOU';
+
+                        let imgHtml = '';
+                        if (msg.image) {
+                            imgHtml = `<img src="${msg.image}" alt="Vision Data" style="max-width:200px; border-radius:5px; margin-bottom:10px; border:1px solid var(--cyan); display:block;">`;
+                        }
+
+                        d.innerHTML = `<div class="avatar ${isAI ? 'ai' : 'user'}">${avatarText}</div>`
+                            + `<div class="bubble"><div class="bubble-label">${label}</div>`
+                            + `<div class="bubble-body">${imgHtml}${fmt(msg.content)}</div></div>`;
+
+                        body.appendChild(d);
+                    });
+                    body.scrollTop = body.scrollHeight;
+                } else {
+                    body.innerHTML = '<div style="text-align:center; color:var(--dim); padding: 40px; font-family: \'Share Tech Mono\';">TIDAK ADA DATA INGATAN.</div>';
+                }
+            } catch (err) {
+                console.error("Error loading history:", err);
+                body.innerHTML = `<div style="text-align:center; color:var(--red); padding: 40px; font-family: 'Share Tech Mono';">
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" style="margin-bottom: 15px;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg><br>
+                    GAGAL MEMUAT DATA INGATAN<br>
+                    <span style="font-size: 0.8em; color: var(--dim); margin-top: 10px; display: block;">${err.message}</span>
+                </div>`;
+            }
+        }
+
+        async function clearMemory() {
+            if (!confirm("Are you sure you want to erase all long-term memory? This cannot be undone.")) return;
+            try {
+                const serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+                const res = await fetch(serverUrl + '/api/history', { method: 'DELETE' });
+                if (res.ok) {
+                    clearChat();
+                    alert("Memory successfully erased.");
+                } else {
+                    alert("Failed to clear memory.");
+                }
+            } catch (err) {
+                console.error("Error clearing memory:", err);
+                alert("Error connecting to server.");
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', loadHistory);
 
         function showThinking() {
             var chat = document.getElementById('chat');
@@ -1474,7 +769,7 @@
                     transcript += event.results[i][0].transcript.toLowerCase();
                 }
 
-                const keywords = ["hey jarvis", "hei jarvis", "hai jarvis", "jarvis", "ok jarvis", "oke jarvis", "service", "ervis", "avis", "hello jarvis", "halo jarvis"];
+                const keywords = ["hey jarvis", "hei jarvis", "hai jarvis", "jarvis", "ok jarvis", "oke jarvis", "wake up jarvis", "ervis", "avis", "hello jarvis", "halo jarvis"];
                 if (keywords.some(k => transcript.includes(k))) {
                     console.log("Wake word detected:", transcript);
                     toggleWakeRecognition(false);
@@ -1497,8 +792,8 @@
                 if (isWakeListening && !isListening && !isSpeaking) {
                     setTimeout(() => {
                         if (isWakeListening && !isListening && !isSpeaking && !isWakeRecognitionRunning) {
-                            try { 
-                                wakeRecognition.start(); 
+                            try {
+                                wakeRecognition.start();
                                 isWakeRecognitionRunning = true;
                                 console.log("WakeRecognition restarted");
                             } catch (e) { console.error("Restart error:", e); }
@@ -1554,17 +849,17 @@
         function emergencyReset() {
             console.log("Emergency Reset Triggered");
             speechSynthesis.cancel();
-            if (recognition) try { recognition.stop(); } catch(e){}
-            if (wakeRecognition) try { wakeRecognition.stop(); } catch(e){}
+            if (recognition) try { recognition.stop(); } catch (e) { }
+            if (wakeRecognition) try { wakeRecognition.stop(); } catch (e) { }
             isListening = false;
             isSpeaking = false;
             isWakeListening = false;
             busy = false;
-            
+
             const ring = document.querySelector('.logo-ring');
             ring.classList.add('glitch');
             setTimeout(() => ring.classList.remove('glitch'), 1000);
-            
+
             setStatus("STANDBY", "SYSTEM RESET");
             setTimeout(() => startSystems(), 500);
         }
@@ -1628,53 +923,61 @@
         }
 
         function drawHUDCanvas(maxVal, rms) {
-            const canvas = document.getElementById('hudCanvas');
+            drawRingCanvas('hudCanvas', maxVal, 50, 45, 35, 35);
+            if (isMinimalView) {
+                drawRingCanvas('orbCanvas', maxVal, 150, 130, 100, 120);
+            }
+        }
+
+        function drawRingCanvas(canvasId, maxVal, center, outerRad, dynRadBase, lineRadBase) {
+            const canvas = document.getElementById(canvasId);
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const w = canvas.width;
             const h = canvas.height;
-            const center = w / 2;
 
             ctx.clearRect(0, 0, w, h);
 
-            // Outer Ring
-            ctx.beginPath();
-            ctx.arc(center, center, 45, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(0, 245, 255, 0.1)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
+            if (canvasId === 'hudCanvas') {
+                ctx.beginPath();
+                ctx.arc(center, center, outerRad, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(0, 245, 255, 0.1)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
 
             // Dynamic Ring (Volume based)
-            const ringRadius = 35 + (maxVal * 30);
+            const ringRadius = dynRadBase + (maxVal * (canvasId === 'orbCanvas' ? 50 : 30));
             ctx.beginPath();
             ctx.arc(center, center, ringRadius, 0, Math.PI * 2);
             ctx.strokeStyle = isListening ? 'var(--red)' : 'var(--cyan)';
-            ctx.globalAlpha = 0.3 + (maxVal * 0.7);
-            ctx.lineWidth = 2;
+            ctx.globalAlpha = (canvasId === 'orbCanvas' ? 0.2 : 0.3) + (maxVal * 0.7);
+            ctx.lineWidth = canvasId === 'orbCanvas' ? 4 : 2;
             ctx.stroke();
 
             // Frequency bars (Circular)
             if (analyser) {
                 const freqData = new Uint8Array(analyser.frequencyBinCount);
                 analyser.getByteFrequencyData(freqData);
-                const bars = 40;
+                const bars = canvasId === 'orbCanvas' ? 80 : 40;
                 const step = (Math.PI * 2) / bars;
-                
+
                 for (let i = 0; i < bars; i++) {
                     const val = freqData[i * 4] / 255;
-                    const barLen = 5 + (val * 15);
+                    const barLen = (canvasId === 'orbCanvas' ? 10 : 5) + (val * (canvasId === 'orbCanvas' ? 40 : 15));
                     const angle = i * step - Math.PI / 2;
-                    
-                    const x1 = center + Math.cos(angle) * 35;
-                    const y1 = center + Math.sin(angle) * 35;
-                    const x2 = center + Math.cos(angle) * (35 + barLen);
-                    const y2 = center + Math.sin(angle) * (35 + barLen);
-                    
+
+                    const x1 = center + Math.cos(angle) * lineRadBase;
+                    const y1 = center + Math.sin(angle) * lineRadBase;
+                    const x2 = center + Math.cos(angle) * (lineRadBase + barLen);
+                    const y2 = center + Math.sin(angle) * (lineRadBase + barLen);
+
                     ctx.beginPath();
                     ctx.moveTo(x1, y1);
                     ctx.lineTo(x2, y2);
                     ctx.strokeStyle = isListening ? 'var(--red)' : 'var(--cyan)';
-                    ctx.lineWidth = 2;
+                    ctx.lineWidth = canvasId === 'orbCanvas' ? 3 : 2;
+                    ctx.globalAlpha = 0.3 + (val * 0.7);
                     ctx.stroke();
                 }
             }
@@ -1720,11 +1023,11 @@
                 ring.classList.add('glitch');
                 setTimeout(() => ring.classList.remove('glitch'), 500);
             }
-            
+
             // Speak greeting before listening
-            const greeting = "saya aktif boss, apakah ada yang bisa di bantu?";
+            const greeting = "saya aktif boss.";
             setStatus("SPEAKING", "RESPONDING...");
-            
+
             // Custom speak for wake to trigger listening after
             if (isMuted) {
                 // If muted, skip to listening immediately
@@ -1736,16 +1039,16 @@
                 if (selectedVoice) utterance.voice = selectedVoice;
                 utterance.rate = 1.1;
                 utterance.pitch = 0.9;
-                
+
                 isSpeaking = true;
                 toggleWakeRecognition(false);
-                
-                utterance.onend = function() {
+
+                utterance.onend = function () {
                     isSpeaking = false;
                     setStatus("LISTENING", "MENDENGARKAN...");
                     toggleVoice();
                 };
-                utterance.onerror = function() {
+                utterance.onerror = function () {
                     isSpeaking = false;
                     setStatus("LISTENING", "MENDENGARKAN...");
                     toggleVoice();
@@ -1756,6 +1059,8 @@
 
         // ===== SPEECH RECOGNITION =====
         var recognition = null;
+        var isProcessingVoice = false;
+        var isProcessingJarvisCommand = false; // Centralized flag to prevent repetition
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
@@ -1769,12 +1074,20 @@
                 }
                 document.getElementById('inp').value = transcript;
                 resize(document.getElementById('inp'));
+
                 if (event.results[event.results.length - 1].isFinal) {
-                    isListening = false;
-                    document.getElementById('micBtn').classList.remove('active');
-                    setStatus("STANDBY");
-                    if (transcript.trim()) {
-                        send();
+                    // Debounce to prevent double processing from the same voice event
+                    if (window.lastVoiceProcess && Date.now() - window.lastVoiceProcess < 1500) return;
+                    window.lastVoiceProcess = Date.now();
+
+                    const finalTranscript = transcript.trim();
+                    if (finalTranscript) {
+                        isListening = false;
+                        document.getElementById('micBtn').classList.remove('active');
+                        setStatus("STANDBY");
+
+                        // Handle the command
+                        handleLocalCommand(finalTranscript);
                     } else {
                         toggleWakeRecognition(true);
                     }
@@ -1855,49 +1168,264 @@
         speechSynthesis.onvoiceschanged = loadVoices;
         setTimeout(loadVoices, 500);
 
-        function speak(text) {
-            if (isMuted || !text) return;
-            speechSynthesis.cancel();
+        function speak(text, enqueue = false) {
+            if (isMuted || !text) {
+                if (!enqueue && !speechSynthesis.speaking) isProcessingJarvisCommand = false;
+                return;
+            }
+
+            if (!enqueue) {
+                // Cancel current speech and stop recognition to prevent Jarvis hearing himself
+                speechSynthesis.cancel();
+            }
+            toggleWakeRecognition(false);
+            if (recognition && !enqueue) {
+                try { recognition.stop(); } catch (e) { }
+            }
+
             var clean = text.replace(/```[\s\S]*?```/g, '').replace(/`[^`]+`/g, '')
                 .replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1')
                 .replace(/<[^>]+>/g, '').replace(/#{1,6}\s/g, '').trim();
-            if (!clean) return;
+
+            if (!clean) {
+                if (!enqueue && !speechSynthesis.speaking) isProcessingJarvisCommand = false;
+                return;
+            }
+
             isSpeaking = true;
-            toggleWakeRecognition(false);
             setStatus("SPEAKING", "BERBICARA...");
+
             var utterance = new SpeechSynthesisUtterance(clean);
             utterance.rate = 1.1;
             utterance.pitch = 0.9;
-            utterance.volume = 0.9;
+            utterance.volume = 1.0;
             if (selectedVoice) utterance.voice = selectedVoice;
+
             utterance.onend = function () {
-                isSpeaking = false;
-                if (!isListening) {
-                    setStatus("STANDBY");
-                    toggleWakeRecognition(true);
+                if (!speechSynthesis.pending) {
+                    isSpeaking = false;
+                    isProcessingJarvisCommand = false;
+                    if (!isListening) {
+                        setStatus("STANDBY");
+                        toggleWakeRecognition(true);
+                    }
                 }
             };
+
             utterance.onerror = function () {
-                isSpeaking = false;
-                if (!isListening) {
-                    setStatus("STANDBY");
-                    toggleWakeRecognition(true);
+                if (!speechSynthesis.pending) {
+                    isSpeaking = false;
+                    isProcessingJarvisCommand = false;
+                    if (!isListening) {
+                        setStatus("STANDBY");
+                        toggleWakeRecognition(true);
+                    }
                 }
             };
+
             speechSynthesis.speak(utterance);
+        }
+
+        /**
+         * Centralized command handler to prevent double processing
+         */
+        function handleLocalCommand(transcript) {
+            if (isProcessingJarvisCommand) return;
+            isProcessingJarvisCommand = true;
+
+            const lowerTranscript = transcript.toLowerCase();
+            console.log("JARVIS: Processing command:", lowerTranscript);
+
+            function recordUserMessage() {
+                appendMsg('user', transcript);
+                history.push({ role: 'user', content: transcript });
+            }
+
+            // Power/System Commands
+            if (lowerTranscript.includes("matikan laptop") || lowerTranscript.includes("shutdown laptop")) {
+                recordUserMessage();
+                return executeSystemAction("shutdown", "Baik Boss, mematikan sistem dalam tiga puluh detik. Simpan pekerjaan Anda.");
+            }
+            if (lowerTranscript.includes("masuk mode tidur") || lowerTranscript.includes("tidurkan laptop") || lowerTranscript.includes("sleep mode")) {
+                recordUserMessage();
+                return executeSystemAction("sleep", "Mengaktifkan mode tidur. Sampai jumpa lagi, Boss.");
+            }
+            if (lowerTranscript.includes("restart laptop") || lowerTranscript.includes("mulai ulang laptop")) {
+                recordUserMessage();
+                return executeSystemAction("restart", "Baik Boss, melakukan mulai ulang sistem dalam tiga puluh detik.");
+            }
+            if (lowerTranscript.includes("kunci laptop") || lowerTranscript.includes("lock laptop")) {
+                recordUserMessage();
+                return executeSystemAction("lock", "Sistem dikunci, Boss.");
+            }
+
+            // Volume Commands
+            if (lowerTranscript.includes("naikkan volume") || lowerTranscript.includes("volume naik")) {
+                recordUserMessage();
+                return executeSystemAction("volume_up", "Volume dinaikkan.");
+            }
+            if (lowerTranscript.includes("turunkan volume") || lowerTranscript.includes("volume turun")) {
+                recordUserMessage();
+                return executeSystemAction("volume_down", "Volume diturunkan.");
+            }
+            if (lowerTranscript.includes("matikan suara") || lowerTranscript.includes("mute")) {
+                recordUserMessage();
+                return executeSystemAction("volume_mute", "Suara dialihkan.");
+            }
+
+            // Spotify Commands
+            const spotifyKeywords = ["putar lagu", "mainkan lagu", "play song", "di spotify", "putar musik", "mainkan musik"];
+            const isSpotifyRequest = spotifyKeywords.some(key => lowerTranscript.includes(key));
+
+            if (isSpotifyRequest) {
+                // Try to extract song name
+                let song = lowerTranscript;
+                spotifyKeywords.forEach(key => {
+                    song = song.replace(key, "");
+                });
+                song = song.replace(/buka spotify dan /g, "")
+                    .replace(/buka spotify /g, "")
+                    .replace(/tolong /g, "")
+                    .replace(/cari /g, "")
+                    .replace(/putar /g, "")
+                    .trim();
+
+                recordUserMessage();
+                if (song && song.length > 1) {
+                    return launchApp("spotify", song);
+                } else {
+                    return executeSystemAction("media_play_pause", "Memutar musik, Boss.");
+                }
+            }
+
+            // Media Control
+            if (lowerTranscript.includes("jeda musik") || lowerTranscript.includes("pause") || lowerTranscript.includes("berhenti")) {
+                recordUserMessage();
+                return executeSystemAction("media_play_pause", "Musik dijeda.");
+            }
+            if (lowerTranscript.includes("lagu berikutnya") || lowerTranscript.includes("next song")) {
+                recordUserMessage();
+                return executeSystemAction("media_next", "Lagu berikutnya.");
+            }
+            if (lowerTranscript.includes("lagu sebelumnya") || lowerTranscript.includes("previous song")) {
+                recordUserMessage();
+                return executeSystemAction("media_prev", "Lagu sebelumnya.");
+            }
+
+            // App Launching
+            if (lowerTranscript.includes("buka ") || lowerTranscript.includes("jalankan ")) {
+                let app = lowerTranscript
+                    .replace(/jarvis/g, "")
+                    .replace(/tolong/g, "")
+                    .replace(/buka /g, "")
+                    .replace(/jalankan /g, "")
+                    .replace(/aplikasi/g, "")
+                    .trim();
+                
+                if (app) {
+                    recordUserMessage();
+                    return launchApp(app);
+                }
+            }
+
+            // If no local command matched, send to AI
+            isProcessingJarvisCommand = false; // Reset so send() can work
+            send(transcript);
         }
 
         function toggleMute() {
             isMuted = !isMuted;
-            var btn = document.getElementById('muteBtn');
-            var ttsToggle = document.getElementById('ttsToggle');
+            const btn = document.getElementById('muteBtn');
+            const icon = document.getElementById('muteIcon');
+            const ttsToggle = document.getElementById('ttsToggle');
+
             if (isMuted) {
                 speechSynthesis.cancel();
-                btn.style.opacity = '0.3';
+                btn.classList.add('active');
+                icon.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
                 if (ttsToggle) ttsToggle.checked = false;
             } else {
-                btn.style.opacity = '1';
+                btn.classList.remove('active');
+                icon.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />';
                 if (ttsToggle) ttsToggle.checked = true;
+            }
+        }
+
+        // ===== SYSTEM TELEMETRY (SSE) =====
+        let telemetrySource = null;
+        let lastWarningTime = 0;
+        function initSystemTelemetry() {
+            const serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+            const apiKey = document.getElementById('apiKey').value.trim();
+
+            // Assign to outer scope variable
+            telemetrySource = new EventSource(serverUrl + '/api/system/stream?key=' + apiKey);
+
+            telemetrySource.onmessage = function (e) {
+                try {
+                    const stats = JSON.parse(e.data);
+
+                    const cpuEl = document.getElementById('hudCpu');
+                    const cpuSubEl = document.getElementById('hudCpuSub');
+                    const memEl = document.getElementById('hudMem');
+                    const netEl = document.getElementById('hudNet');
+                    const cpuBox = document.getElementById('hudBoxCpu');
+
+                    if (cpuEl) cpuEl.textContent = stats.cpu.toFixed(1) + '%';
+                    if (memEl) memEl.textContent = stats.memUsed.toFixed(1) + ' GB';
+                    if (netEl) netEl.textContent = stats.ping.toFixed(0) + ' ms';
+
+                    if (stats.cpu > 90) {
+                        if (cpuBox) cpuBox.classList.add('hud-warning');
+                        if (cpuSubEl) cpuSubEl.textContent = 'CRITICAL';
+
+                        const mainOrb = document.getElementById('mainOrb');
+                        if (mainOrb) mainOrb.classList.add('orb-critical');
+
+                        // Limit warning to once every 30 seconds
+                        var now = Date.now();
+                        if (!isSpeaking && !busy && (now - lastWarningTime > 30000)) {
+                            lastWarningTime = now;
+                            speak("Peringatan, Boss. Beban inti sistem telah melebihi batas aman.");
+                        }
+                    } else {
+                        if (cpuBox) cpuBox.classList.remove('hud-warning');
+                        if (cpuSubEl) cpuSubEl.textContent = 'STABLE';
+
+                        const mainOrb = document.getElementById('mainOrb');
+                        if (mainOrb) mainOrb.classList.remove('orb-critical');
+                    }
+                } catch (err) {
+                    console.error("Telemetry parse error", err);
+                }
+            };
+
+            telemetrySource.onerror = function (e) {
+                console.warn("System telemetry connection lost.");
+            };
+        }
+
+        async function loadHistory() {
+            const serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const historyBody = document.getElementById('historyModalBody');
+
+            try {
+                historyBody.innerHTML = '<p style="color: var(--dim);">Loading history...</p>';
+                const response = await fetch(serverUrl + '/api/history', {
+                    headers: { 'x-api-key': apiKey }
+                });
+                if (!response.ok) throw new Error('Failed to load history');
+                const data = await response.json();
+                historyBody.innerHTML = '';
+                data.history.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.className = 'history-item';
+                    div.innerHTML = `<strong>${msg.role}:</strong> ${msg.content}`;
+                    historyBody.appendChild(div);
+                });
+            } catch (err) {
+                historyBody.innerHTML = '<p style="color: var(--red);">Error: ' + err.message + '</p>';
             }
         }
 
@@ -1909,9 +1437,10 @@
             initWakeRecognition();
             playStartupChime();
             setTimeout(() => {
-                speak("Semua sistem online, Boss. J.A.R.V.I.S siap menerima perintah.");
+                speak("Semua sistem online, Boss. Jarvis siap menerima perintah.");
                 toggleWakeRecognition(true);
             }, 1000);
+            initSystemTelemetry();
         }
 
         // HUD Clock
@@ -1919,15 +1448,23 @@
             var now = new Date();
             var clock = document.getElementById('hudClock');
             var dateEl = document.getElementById('hudDate');
+            var minTime = document.getElementById('minimalTime');
+            var minDate = document.getElementById('minimalDate');
             var cpu = document.getElementById('hudCpu');
             var mem = document.getElementById('hudMem');
-            if (clock) clock.textContent = now.toLocaleTimeString('en-GB', { hour12: false });
-            if (dateEl) {
-                var months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-                dateEl.textContent = months[now.getMonth()] + ' ' + now.getDate() + ' ' + now.getFullYear();
-            }
-            if (cpu) cpu.textContent = (8 + Math.random() * 12).toFixed(0) + '%';
-            if (mem) mem.textContent = (3.8 + Math.random() * 0.8).toFixed(1) + ' GB';
+
+            var timeStr = now.toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit' });
+            var fullTimeStr = now.toLocaleTimeString('en-GB', { hour12: false });
+            var days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+            var months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            var dateStr = days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()];
+
+            if (clock) clock.textContent = fullTimeStr;
+            if (dateEl) dateEl.textContent = months[now.getMonth()] + ' ' + now.getDate() + ' ' + now.getFullYear();
+            if (minTime) minTime.textContent = timeStr;
+            if (minDate) minDate.textContent = dateStr;
+
+            if (minDate) minDate.textContent = dateStr;
         }, 1000);
 
         let currentStreamReader = null;
@@ -1968,19 +1505,32 @@
             return d.querySelector('.bubble-body');
         }
 
-        async function send() {
-            if (busy) return;
+        async function send(textToProcess) {
+            if (busy || isProcessingJarvisCommand) return;
+            isProcessingJarvisCommand = true;
+            // Guard against stuck flag
+            setTimeout(() => { isProcessingJarvisCommand = false; }, 8000);
+
             var inp = document.getElementById('inp');
-            var text = inp.value.trim();
+            var text = (typeof textToProcess === 'string' && textToProcess.trim() !== '') ? textToProcess.trim() : inp.value.trim();
             if (!text) return;
 
             var serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
             var systemPrompt = document.getElementById('systemPrompt').value.trim();
+            const apiKey = document.getElementById('apiKey').value.trim();
 
             document.getElementById('serverLabel').textContent = serverUrl.replace('http://', '').replace('https://', '');
 
             appendMsg('user', text);
-            history.push({ role: 'user', content: text });
+
+            var msgObj = { role: 'user', content: text };
+            if (isVisionActive) {
+                var base64Image = captureFrame();
+                if (base64Image) {
+                    msgObj.imageBase64 = base64Image;
+                }
+            }
+            history.push(msgObj);
             inp.value = '';
             inp.style.height = 'auto';
 
@@ -1997,8 +1547,14 @@
                 // Coba streaming dulu
                 const response = await fetch(serverUrl + '/api/chat/stream', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ messages: history, system: systemPrompt })
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey
+                    },
+                    body: JSON.stringify({
+                        messages: history,
+                        system: systemPrompt
+                    })
                 });
 
                 if (!response.ok || response.headers.get('Content-Type')?.indexOf('text/event-stream') === -1) {
@@ -2007,9 +1563,18 @@
                         const fallbackData = await response.json();
                         hideThinking();
                         if (fallbackData.reply) {
-                            history.push({ role: 'assistant', content: fallbackData.reply });
-                            appendMsg('ai', fallbackData.reply);
-                            speak(fallbackData.reply);
+                            if (fallbackData.reply.includes("Ingatan telah dibersihkan")) {
+                                setTimeout(() => {
+                                    document.getElementById('chat').innerHTML = '';
+                                    history = [];
+                                    appendMsg('ai', fallbackData.reply);
+                                    speak(fallbackData.reply);
+                                }, 500);
+                            } else {
+                                history.push({ role: 'assistant', content: fallbackData.reply });
+                                appendMsg('ai', fallbackData.reply);
+                                speak(fallbackData.reply);
+                            }
                         } else {
                             throw new Error(fallbackData.error || 'Server error');
                         }
@@ -2025,23 +1590,10 @@
                 currentStreamReader = response.body.getReader();
                 const decoder = new TextDecoder();
                 let fullText = "";
-                let charQueue = [];
-                let isRendering = false;
-
-                async function startTypewriter() {
-                    if (isRendering) return;
-                    isRendering = true;
-                    while (charQueue.length > 0 && !stopStreaming) {
-                        const char = charQueue.shift();
-                        fullText += char;
-                        playTypingTick();
-                        bodyEl.innerHTML = fmt(fullText);
-                        var chat = document.getElementById('chat');
-                        chat.scrollTop = chat.scrollHeight;
-                        await new Promise(r => setTimeout(r, 18));
-                    }
-                    isRendering = false;
-                }
+                let speechBuffer = "";
+                let pendingRender = false;
+                let firstToken = true;
+                let isFirstSentence = true;
 
                 while (true) {
                     const { done, value } = await currentStreamReader.read();
@@ -2057,11 +1609,35 @@
                             try {
                                 const data = JSON.parse(dataStr);
                                 if (data.token) {
-                                    // Push ke queue per karakter
-                                    for (const char of data.token) {
-                                        charQueue.push(char);
+                                    fullText += data.token;
+                                    speechBuffer += data.token;
+
+                                    // Extract sentences to speak progressively
+                                    let match = speechBuffer.match(/^([\s\S]*?[.?!:\n]+)(?:\s|$)/);
+                                    if (match) {
+                                        let sentence = match[1].trim();
+                                        if (sentence) {
+                                            speak(sentence, !isFirstSentence);
+                                            isFirstSentence = false;
+                                        }
+                                        speechBuffer = speechBuffer.substring(match[0].length);
                                     }
-                                    startTypewriter();
+
+                                    if (firstToken) {
+                                        playTypingTick();
+                                        firstToken = false;
+                                    }
+
+                                    if (!pendingRender) {
+                                        pendingRender = true;
+                                        requestAnimationFrame(() => {
+                                            if (stopStreaming) return;
+                                            bodyEl.innerHTML = fmt(fullText);
+                                            var chat = document.getElementById('chat');
+                                            chat.scrollTop = chat.scrollHeight;
+                                            pendingRender = false;
+                                        });
+                                    }
                                 }
                             } catch (e) {
                                 console.warn("Parse error in stream:", e);
@@ -2070,11 +1646,15 @@
                     }
                 }
 
-                // Tunggu sampai typewriter selesai
-                while (isRendering || charQueue.length > 0) {
-                    if (stopStreaming) break;
-                    await new Promise(r => setTimeout(r, 100));
+                // Speak any remaining text in buffer
+                if (speechBuffer.trim()) {
+                    speak(speechBuffer.trim(), !isFirstSentence);
                 }
+
+                // Final render to ensure everything is displayed
+                bodyEl.innerHTML = fmt(fullText);
+                var chat = document.getElementById('chat');
+                chat.scrollTop = chat.scrollHeight;
 
                 // Hapus tombol stop setelah selesai
                 const stopBtn = document.querySelector('#streaming-msg button');
@@ -2083,8 +1663,15 @@
                 if (sMsg) sMsg.removeAttribute('id');
 
                 if (fullText && !stopStreaming) {
-                    history.push({ role: 'assistant', content: fullText });
-                    speak(fullText);
+                    if (fullText.includes("Ingatan telah dibersihkan")) {
+                        setTimeout(() => {
+                            document.getElementById('chat').innerHTML = '';
+                            history = [];
+                            appendMsg('ai', fullText);
+                        }, 500);
+                    } else {
+                        history.push({ role: 'assistant', content: fullText });
+                    }
                 }
 
             } catch (err) {
@@ -2098,6 +1685,70 @@
                 document.getElementById('sendBtn').disabled = false;
                 if (!isListening && !isSpeaking) setStatus("STANDBY");
                 inp.focus();
+            }
+        }
+
+        // ===== SYSTEM CONTROL HELPER =====
+        async function executeSystemAction(action, feedbackText) {
+            const serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+            try {
+                // Speak feedback first
+                speak(feedbackText);
+
+                // Add to chat as AI response
+                appendMsg('ai', feedbackText);
+
+                const apiKey = document.getElementById('apiKey').value.trim();
+
+                // Send request to backend
+                const response = await fetch(serverUrl + '/api/system/control', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey
+                    },
+                    body: JSON.stringify({ action })
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "Gagal mengeksekusi perintah sistem");
+
+                console.log(`System action ${action} executed successfully`);
+            } catch (err) {
+                console.error("System control error:", err);
+                appendMsg('ai', "Maaf Boss, terjadi kesalahan saat mencoba mengakses kontrol sistem: " + err.message, true);
+                speak("Maaf Boss, saya gagal mengakses kontrol sistem.");
+            }
+        }
+
+        async function launchApp(appName, query = "") {
+            try {
+                // Clean query
+                let cleanQuery = query.replace(/ di spotify$/i, "").replace(/ tolong /i, " ").trim();
+                const feedback = cleanQuery ? `Mencari dan memutar ${cleanQuery} di Spotify, Boss.` : `Membuka ${appName}, Boss.`;
+                speak(feedback);
+                appendMsg('ai', feedback);
+
+                const apiKey = document.getElementById('apiKey').value.trim();
+                const serverUrl = document.getElementById('serverUrl').value.trim().replace(/\/$/, '');
+
+                const response = await fetch(serverUrl + '/api/launch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey
+                    },
+                    body: JSON.stringify({ app: appName, query: query })
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "Gagal membuka aplikasi");
+
+                console.log(`App ${appName} launched successfully`);
+            } catch (err) {
+                console.error("Launch app error:", err);
+                appendMsg('ai', "Maaf Boss, gagal membuka " + appName + ": " + err.message, true);
+                speak("Maaf Boss, saya gagal membuka aplikasi tersebut.");
             }
         }
     </script>
